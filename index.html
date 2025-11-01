@@ -1,68 +1,352 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Update Payment Information</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Shop Affiliate Command Center</title>
     <style>
+        :root {
+            color-scheme: light dark;
+            --bg: #0f172a;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --text: #f8fafc;
+            --accent: #22d3ee;
+            --accent-dark: #0ea5e9;
+            --muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
+            font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(circle at top, rgba(34, 211, 238, 0.12), transparent 60%),
+                        radial-gradient(circle at bottom, rgba(14, 165, 233, 0.15), transparent 65%),
+                        var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 40px 16px 80px;
+            line-height: 1.6;
         }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            margin-top: 10px;
-            color: #666;
-        }
-        input {
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
+
+        header {
+            max-width: 1100px;
+            margin: 0 auto 40px;
             text-align: center;
         }
-        .button:hover {
-            background-color: #0056b3;
+
+        h1 {
+            font-size: clamp(2.2rem, 2vw + 1.5rem, 3.2rem);
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+        }
+
+        h2 {
+            font-size: clamp(1.4rem, 1vw + 1rem, 2rem);
+            margin: 0 0 16px;
+        }
+
+        p.lead {
+            max-width: 760px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+            color: var(--muted);
+        }
+
+        .grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            gap: 24px;
+        }
+
+        section {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 25px 70px -35px rgba(15, 118, 110, 0.45);
+        }
+
+        section ul {
+            padding-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+            background: rgba(15, 23, 42, 0.65);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        th {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(34, 211, 238, 0.18);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .hook-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .hook-card {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .hook-card span {
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .hook-card p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .note {
+            margin-top: 12px;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .checklist label {
+            background: rgba(15, 23, 42, 0.65);
+            border-radius: 12px;
+            padding: 12px 14px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .checklist input[type="checkbox"] {
+            accent-color: var(--accent);
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 24px 12px 60px;
+            }
+
+            section {
+                padding: 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Update Payment Information</h1>
-        <form action="[Your Server Script to Capture Data]" method="post">
-            <label for="cardNumber">Card Number:</label>
-            <input type="text" id="cardNumber" name="cardNumber" required>
+    <header>
+        <div class="pill">TikTok Shop Affiliate System</div>
+        <h1>Your Command Center</h1>
+        <p class="lead">Plan your product testing, script viral-ready videos, schedule consistent posts, and track the metrics that matter. Duplicate each section into your own sheets or use it as a quick-reference dashboard while you execute.</p>
+    </header>
 
-            <label for="expiryDate">Expiry Date:</label>
-            <input type="text" id="expiryDate" name="expiryDate" required>
+    <div class="grid">
+        <section>
+            <h2>Product Research Tracker</h2>
+            <p>Log every product you consider so you can compare commission, pricing, and performance at a glance. Keep 10–20 options in rotation and highlight the ones worth testing first.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Commission %</th>
+                        <th>$ Per Sale</th>
+                        <th>Link</th>
+                        <th>Why It Works</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Magnetic Screen Door</td>
+                        <td>$24.99</td>
+                        <td>18%</td>
+                        <td>$4.49</td>
+                        <td>shop.tiktok.com/.../screen-door</td>
+                        <td>Solves bug problem instantly, easy visual demo, 4.8★ with 2K reviews.</td>
+                        <td>Queued</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7">Add rows for each product you discover. Color-code by priority when you copy into Sheets or Airtable.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note">Score products on a 1–5 scale for problem clarity, demo strength, and commission to decide what to film first.</p>
+        </section>
 
-            <label for="cvv">CVV:</label>
-            <input type="text" id="cvv" name="cvv" required>
+        <section>
+            <h2>Video Script & Hook Library</h2>
+            <p>Ten plug-and-play hooks tailored for problem-solving home and kitchen gadgets. Swap in the product, problem, and result—keep videos 10–15 seconds and punchy.</p>
+            <div class="hook-list">
+                <div class="hook-card">
+                    <span>Hook 01</span>
+                    <p>“Stop scrolling if your <strong>[room/space]</strong> is still a mess—this <strong>[product]</strong> fixes it in 10 seconds.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 02</span>
+                    <p>“I didn’t think <strong>[problem]</strong> had a solution until TikTok Shop sent me this <strong>[product]</strong>.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 03</span>
+                    <p>“POV: You’re tired of <strong>[frustration]</strong>. Here’s the $<strong>[price]</strong> gadget that fixes it.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 04</span>
+                    <p>“If you live in an apartment, you need this <strong>[product]</strong>—watch what it does to <strong>[problem]</strong>.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 05</span>
+                    <p>“I just replaced my old <strong>[item]</strong> with this TikTok Shop find. Here’s the before & after.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 06</span>
+                    <p>“Three reasons this <strong>[product]</strong> is going viral for <strong>[audience]</strong> right now.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 07</span>
+                    <p>“This $<strong>[price]</strong> fix saved me from spending $<strong>[higher cost]</strong> on <strong>[alternative solution]</strong>.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 08</span>
+                    <p>“Watch how this <strong>[product]</strong> handles <strong>[gross/annoying problem]</strong>—satisfying.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 09</span>
+                    <p>“TikTok made me buy it and now I can’t live without it. <strong>[Product]</strong> for <strong>[problem]</strong>.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 10</span>
+                    <p>“Before you buy another <strong>[common item]</strong>, try this instead. Link in bio while it’s 20% off.”</p>
+                </div>
+            </div>
+            <p class="note">Pair each hook with the voiceover script: “Stop! If you struggle with <strong>[problem]</strong>, you need this. <strong>[Product]</strong> <strong>[core benefit]</strong>. It’s only $<strong>[price]</strong> on TikTok Shop—link in my bio.”</p>
+        </section>
 
-            <button type="submit" class="button">Submit</button>
-        </form>
+        <section>
+            <h2>Posting Schedule Template</h2>
+            <p>Keep volume high by batching content and checking off each time slot. Duplicate per account and fill in the product you plan to promote.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Slot 1<br><small>7–9 AM EST</small></th>
+                        <th>Slot 2<br><small>12–2 PM EST</small></th>
+                        <th>Slot 3<br><small>5–7 PM EST</small></th>
+                        <th>Slot 4<br><small>9–11 PM EST</small></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Monday</td>
+                        <td>Product / Hook</td>
+                        <td>Product / Hook</td>
+                        <td>Product / Hook</td>
+                        <td>Product / Hook</td>
+                    </tr>
+                    <tr>
+                        <td>Tuesday</td>
+                        <td colspan="4">Repeat for every day. Note repurposed winners versus fresh tests.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="checklist">
+                <label><input type="checkbox">Batch record 20+ clips</label>
+                <label><input type="checkbox">Schedule posts in Later/Metricool</label>
+                <label><input type="checkbox">Engage with comments 2x daily</label>
+                <label><input type="checkbox">Repost winning video with new caption</label>
+            </div>
+        </section>
+
+        <section>
+            <h2>Analytics Tracking Sheet</h2>
+            <p>Log every post, then review weekly to double down on the creatives and products driving the most revenue.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Video ID</th>
+                        <th>Product</th>
+                        <th>Hook</th>
+                        <th>Views</th>
+                        <th>Likes</th>
+                        <th>Comments</th>
+                        <th>CTR</th>
+                        <th>Sales</th>
+                        <th>Revenue</th>
+                        <th>Notes / Next Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ACC1-2024-08-01-01</td>
+                        <td>Magnetic Screen Door</td>
+                        <td>Hook 04</td>
+                        <td>128,400</td>
+                        <td>8,450</td>
+                        <td>1,132</td>
+                        <td>4.6%</td>
+                        <td>212</td>
+                        <td>$951.28</td>
+                        <td>Scale: produce 5 remix angles + cross-post on Account 2.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="10">Add new rows per upload. Highlight rows that cross 50K views or 5% CTR to prioritize duplicating.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note">Every Sunday, audit the sheet: retire underperformers, plan new hooks for mid-tier performers, and brief your VA on next week’s winners.</p>
+        </section>
     </div>
 </body>
 </html>
