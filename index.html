@@ -1,68 +1,663 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Update Payment Information</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Shop Affiliate System</title>
     <style>
+        :root {
+            color-scheme: light dark;
+            --bg: #070b16;
+            --bg-gradient: radial-gradient(circle at top, rgba(34, 211, 238, 0.15), transparent 60%),
+                             radial-gradient(circle at bottom, rgba(14, 165, 233, 0.12), transparent 65%),
+                             #070b16;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --accent: #22d3ee;
+            --accent-dark: #0ea5e9;
+            --border: rgba(148, 163, 184, 0.25);
+            --card-bg: rgba(15, 23, 42, 0.72);
+            --card-blur: blur(18px);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
-            padding: 0;
+            font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 40px 16px 96px;
+            line-height: 1.65;
         }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        label {
-            margin-top: 10px;
-            color: #666;
-        }
-        input {
-            padding: 10px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
+
+        header {
+            max-width: 1120px;
+            margin: 0 auto 48px;
             text-align: center;
         }
-        .button:hover {
-            background-color: #0056b3;
+
+        header .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(34, 211, 238, 0.18);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.75rem;
+        }
+
+        header h1 {
+            margin: 16px 0 12px;
+            font-size: clamp(2.4rem, 2vw + 2rem, 3.2rem);
+            letter-spacing: 0.01em;
+        }
+
+        header p {
+            max-width: 780px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 1.05rem;
+        }
+
+        nav {
+            max-width: 1120px;
+            margin: 0 auto 36px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.6);
+            font-size: 0.9rem;
+            transition: border 0.2s ease, transform 0.2s ease;
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        main {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        section {
+            background: var(--card-bg);
+            backdrop-filter: var(--card-blur);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px clamp(20px, 4vw, 40px);
+            box-shadow: 0 30px 70px -35px rgba(14, 165, 233, 0.4);
+        }
+
+        section h2 {
+            margin: 0 0 16px;
+            font-size: clamp(1.6rem, 1vw + 1.2rem, 2.2rem);
+        }
+
+        section h3 {
+            margin: 28px 0 8px;
+            font-size: clamp(1.1rem, 0.8vw + 1rem, 1.4rem);
+        }
+
+        section h3:first-of-type {
+            margin-top: 0;
+        }
+
+        ul, ol {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        li + li {
+            margin-top: 8px;
+        }
+
+        .callout {
+            margin: 16px 0;
+            padding: 18px 20px;
+            border-radius: 16px;
+            background: rgba(34, 211, 238, 0.12);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+            color: var(--text);
+            font-size: 0.95rem;
+        }
+
+        .callout strong {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.75rem;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .task-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .task-grid label {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            accent-color: var(--accent);
+            margin-top: 2px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+            font-size: 0.95rem;
+            background: rgba(7, 11, 22, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+
+        th {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 16px;
+        }
+
+        .note {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 12px;
+        }
+
+        .hook-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .hook-card {
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .hook-card span {
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .hook-card p {
+            margin: 0;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 28px 12px 64px;
+            }
+
+            header h1 {
+                font-size: 2.1rem;
+            }
+
+            section {
+                padding: 28px 20px;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Update Payment Information</h1>
-        <form action="[Your Server Script to Capture Data]" method="post">
-            <label for="cardNumber">Card Number:</label>
-            <input type="text" id="cardNumber" name="cardNumber" required>
+    <header>
+        <div class="pill">TikTok Shop Playbook</div>
+        <h1>TikTok Shop Affiliate Command Center</h1>
+        <p>Launch, test, and scale your TikTok Shop affiliate operation. Follow the phased roadmap, copy the ready-to-go templates, and track performance without digging through notes.</p>
+    </header>
 
-            <label for="expiryDate">Expiry Date:</label>
-            <input type="text" id="expiryDate" name="expiryDate" required>
+    <nav>
+        <a href="#phase-1">Phase 1 · Setup</a>
+        <a href="#phase-2">Phase 2 · Product Research</a>
+        <a href="#phase-3">Phase 3 · Content Creation</a>
+        <a href="#phase-4">Phase 4 · Posting Strategy</a>
+        <a href="#phase-5">Phase 5 · Optimization</a>
+        <a href="#phase-6">Phase 6 · Scaling</a>
+        <a href="#week-1">Week 1 Action Plan</a>
+        <a href="#resources">Templates & Tracking</a>
+        <a href="#next-steps">What Happens Next</a>
+    </nav>
 
-            <label for="cvv">CVV:</label>
-            <input type="text" id="cvv" name="cvv" required>
+    <main>
+        <section id="phase-1">
+            <h2>Phase 1 · Setup (Day 1–2)</h2>
+            <h3>Step 1 · Create 2–3 TikTok Accounts</h3>
+            <ul>
+                <li>Use different emails (Gmail works) and phone numbers (Google Voice or TextNow).</li>
+                <li>Upload believable profile photos from <a href="https://thispersondoesnotexist.com" style="color: var(--accent);">thispersondoesnotexist.com</a>.</li>
+                <li>Bio formula: <em>“[Niche] enthusiast | Sharing cool finds | Links below ⬇️”</em>.</li>
+                <li>Do <strong>not</strong> add external links until the account has some momentum.</li>
+                <li>Rotate devices or clear cache between accounts to avoid fingerprinting.</li>
+            </ul>
+            <div class="callout">
+                <strong>Pro Tip</strong>
+                Use separate browser profiles or the TikTok mobile app on different devices when possible. Fewer than three accounts keeps execution clean.
+            </div>
 
-            <button type="submit" class="button">Submit</button>
-        </form>
-    </div>
+            <h3>Step 2 · Join TikTok Shop Affiliate</h3>
+            <ol>
+                <li>Visit TikTok Shop Seller Center and apply as an affiliate (not a seller).</li>
+                <li>Use a US-based TikTok account. Approval is faster with 5,000+ followers.</li>
+                <li>If you lack the follower count, target products that allow any creator or warm up with organic posts.</li>
+                <li>Optional fallback: purchase a warmed account with 5K followers from PlayerUp/Fameswap (risky but viable).</li>
+            </ol>
+
+            <h3>Step 3 · Pick Your First Niche</h3>
+            <div class="two-column">
+                <div>
+                    <h4 style="margin: 0 0 10px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; color: var(--muted);">Avoid</h4>
+                    <ul>
+                        <li>Generic Amazon gadgets.</li>
+                        <li>Basic apparel or fast fashion.</li>
+                        <li>Beauty items unless you can film on camera.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 10px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; color: var(--muted);">Focus On</h4>
+                    <ul>
+                        <li>Problem-solving home or kitchen gadgets.</li>
+                        <li>High-ticket winners: home improvement, kitchen appliances, pet products, fitness, tech accessories.</li>
+                        <li>Volume plays: seasonal hits, “As Seen on TV” style products, sub-$30 problem solvers.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="phase-2">
+            <h2>Phase 2 · Product Research (Day 2–3)</h2>
+            <h3>What to Look For</h3>
+            <ul>
+                <li>Commission: 15–20%+.</li>
+                <li>Price: $20–$100 sweet spot (allows margin and impulse buys).</li>
+                <li>Ratings: 4.5★+ with 100+ reviews.</li>
+                <li>GMV: $10K+ in the last 30 days.</li>
+                <li>Problem solved must be obvious within 3 seconds of video playback.</li>
+            </ul>
+            <h3>Research Methods</h3>
+            <ol>
+                <li><strong>TikTok Shop Search:</strong> Filter by commission, sort by highest rate, inspect listings.</li>
+                <li><strong>Spy on Competitors:</strong> Search hashtags (#TikTokShop, #TikTokFinds, #TikTokMadeMeBuyIt), filter by most liked in the last 7 days, and reverse engineer their offers.</li>
+                <li><strong>Tools:</strong> Use FindNiche (free tier) or Shoplus for performance analytics.</li>
+            </ol>
+            <div class="callout">
+                <strong>Starter Products</strong>
+                Drain hair catcher · Magnetic screen door · Cordless car vacuum · Hands-free pet leash.
+            </div>
+        </section>
+
+        <section id="phase-3">
+            <h2>Phase 3 · Content Creation (Day 3–7)</h2>
+            <h3>Winning Video Formula (10–15 seconds)</h3>
+            <ol>
+                <li><strong>Hook (0–1s):</strong> Show the pain or shocking result immediately.</li>
+                <li><strong>Demo (1–7s):</strong> Demonstrate the product in action solving the problem.</li>
+                <li><strong>Proof (7–10s):</strong> Show outcome, benefits, or social proof.</li>
+                <li><strong>CTA (10–12s):</strong> “Link in bio” or pin a comment with the product.</li>
+            </ol>
+            <h3>Production Options</h3>
+            <ul>
+                <li><strong>Supplier Footage:</strong> Ask sellers for assets or download listing videos, add ElevenLabs voiceover, and captions in CapCut (fastest).</li>
+                <li><strong>UGC Talent:</strong> Hire Fiverr creators to record 15-second clips ($10–$30).</li>
+                <li><strong>AI Build:</strong> Use Canva/CapCut with stock footage, AI voiceover, and text overlays.</li>
+                <li><strong>Carousel:</strong> Use listing images, add motion and benefit captions.</li>
+            </ul>
+            <div class="callout">
+                <strong>Script Template</strong>
+                “Stop! If you have <em>[problem]</em>, you need this. <em>[Product]</em> <em>[core benefit]</em>. It’s only $<em>[price]</em> on TikTok Shop. Link in my bio.”
+            </div>
+        </section>
+
+        <section id="phase-4">
+            <h2>Phase 4 · Posting Strategy (Ongoing)</h2>
+            <ul>
+                <li>Minimum 3 videos/day per account; optimal 5–7.</li>
+                <li>Post at 7–9 AM, 12–2 PM, 5–7 PM, and 9–11 PM EST.</li>
+                <li>Mix: 70% new products, 30% remix proven winners.</li>
+                <li>Batch 30–50 videos in 3–4 hours and schedule them.</li>
+            </ul>
+            <div class="callout">
+                <strong>Scheduling Tools</strong>
+                Later (30 posts/mo free) · Metricool (50 posts/mo free) · Native TikTok scheduler.
+            </div>
+        </section>
+
+        <section id="phase-5">
+            <h2>Phase 5 · Optimization (Week 2+)</h2>
+            <h3>Track Every Upload</h3>
+            <ul>
+                <li>Monitor views, engagement, CTR (target 3–5%+), conversion (5–10% of clicks).</li>
+                <li>Flag videos hitting 100K+ views—replicate immediately.</li>
+            </ul>
+            <h3>Decision Rules</h3>
+            <ul>
+                <li><strong>Double down:</strong> 50K+ view videos → produce 5 variants and promote across accounts.</li>
+                <li><strong>Kill:</strong> High views but no sales → swap product; &lt;500 views → adjust hook.</li>
+            </ul>
+            <div class="callout">
+                <strong>Algorithm Levers</strong>
+                Reply to comments with videos · Use trending sounds when relevant · Stick to 3–5 hashtags (#TikTokShop, #TikTokFinds, product keyword) · Engage with other Shop creators daily.
+            </div>
+        </section>
+
+        <section id="phase-6">
+            <h2>Phase 6 · Scaling (Month 2–3)</h2>
+            <ul>
+                <li><strong>Accounts:</strong> Clone winning formats to 2–3 more profiles. Consider VA support for posting.</li>
+                <li><strong>Products:</strong> Test 50–100 per month to uncover 5–10 consistent winners.</li>
+                <li><strong>Paid Ads:</strong> Layer TikTok Shop ads ($20–$50/day) once organic sales are steady.</li>
+            </ul>
+            <div class="callout">
+                <strong>Team Structure</strong>
+                You: strategy & product research (≈5 hrs/week) · VA 1: video creation ($200–$400/week) · VA 2: posting & engagement ($150–$300/week).
+            </div>
+            <p class="note">Financial targets: Month 1 profit $300–$2.5K · Month 2–3 profit $2.5K–$9K · Month 4–6 profit $8K–$35K if you keep scaling volume.</p>
+        </section>
+
+        <section id="week-1">
+            <h2>Week 1 Action Plan</h2>
+            <div class="task-grid">
+                <label><input type="checkbox">Day 1 · Create 2–3 TikTok accounts.</label>
+                <label><input type="checkbox">Day 1 · Apply for TikTok Shop affiliate access.</label>
+                <label><input type="checkbox">Day 1 · Research 20 products & populate tracker.</label>
+                <label><input type="checkbox">Day 2 · Pick top 5 products to launch with.</label>
+                <label><input type="checkbox">Day 2 · Secure supplier footage or order UGC clips.</label>
+                <label><input type="checkbox">Day 2 · Set up ElevenLabs for voiceovers.</label>
+                <label><input type="checkbox">Day 3–4 · Batch 20–30 videos with hooks and captions.</label>
+                <label><input type="checkbox">Day 5 · Post first 3 videos and start analytics sheet.</label>
+                <label><input type="checkbox">Day 6–7 · Post 3× daily, engage comments, iterate winners.</label>
+            </div>
+        </section>
+
+        <section id="resources">
+            <h2>Templates & Tracking Hub</h2>
+            <h3>Product Research Spreadsheet</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Commission %</th>
+                        <th>$ per Sale</th>
+                        <th>Link</th>
+                        <th>Why It Works</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Magnetic Screen Door</td>
+                        <td>$24.99</td>
+                        <td>18%</td>
+                        <td>$4.49</td>
+                        <td>shop.tiktok.com/.../screen-door</td>
+                        <td>Solves bug problem, fast demo, 4.8★ with 2K reviews.</td>
+                        <td>Queued</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7">Duplicate row for each product; score clarity, demo strength, and commission (1–5) to rank.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Hook & Script Library</h3>
+            <div class="hook-list">
+                <div class="hook-card">
+                    <span>Hook 01</span>
+                    <p>“Stop scrolling if your <strong>[room/space]</strong> is a mess—this <strong>[product]</strong> fixes it in 10 seconds.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 02</span>
+                    <p>“I didn’t think <strong>[problem]</strong> had a solution until TikTok Shop sent me this <strong>[product]</strong>.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 03</span>
+                    <p>“POV: You’re tired of <strong>[frustration]</strong>. Here’s the $<strong>[price]</strong> gadget that fixes it.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 04</span>
+                    <p>“Apartment people: watch how this <strong>[product]</strong> handles <strong>[problem]</strong>.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 05</span>
+                    <p>“Swapped my old <strong>[item]</strong> for this TikTok find—peep the before & after.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 06</span>
+                    <p>“Three reasons this <strong>[product]</strong> is blowing up for <strong>[audience]</strong>.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 07</span>
+                    <p>“This $<strong>[price]</strong> fix saved me from spending $<strong>[higher cost]</strong> on <strong>[alternative]</strong>.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 08</span>
+                    <p>“Watch this <strong>[product]</strong> obliterate <strong>[gross/annoying problem]</strong>—so satisfying.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 09</span>
+                    <p>“TikTok made me buy it and now I can’t live without <strong>[product]</strong> for <strong>[problem]</strong>.”</p>
+                </div>
+                <div class="hook-card">
+                    <span>Hook 10</span>
+                    <p>“Before you buy another <strong>[common item]</strong>, try this instead. Link in bio while it’s 20% off.”</p>
+                </div>
+            </div>
+            <p class="note">Pair with the voiceover script: “Stop! If you struggle with <strong>[problem]</strong>, you need this. <strong>[Product]</strong> <strong>[core benefit]</strong>. It’s $<strong>[price]</strong> on TikTok Shop—link in my bio.”</p>
+
+            <h3>Posting Schedule Template</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>7–9 AM EST</th>
+                        <th>12–2 PM EST</th>
+                        <th>5–7 PM EST</th>
+                        <th>9–11 PM EST</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Monday</td>
+                        <td>Product / Hook</td>
+                        <td>Product / Hook</td>
+                        <td>Product / Hook</td>
+                        <td>Product / Hook</td>
+                    </tr>
+                    <tr>
+                        <td>Tuesday</td>
+                        <td colspan="4">Duplicate for each day; note whether it’s a winner repost or new test.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="task-grid" style="margin-top: 12px;">
+                <label><input type="checkbox">Batch record 20+ clips weekly.</label>
+                <label><input type="checkbox">Schedule posts in Later/Metricool.</label>
+                <label><input type="checkbox">Engage with comments twice daily.</label>
+                <label><input type="checkbox">Repost winners with fresh captions.</label>
+            </div>
+
+            <h3>Analytics Tracking Sheet</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Video ID</th>
+                        <th>Product</th>
+                        <th>Hook</th>
+                        <th>Views</th>
+                        <th>Likes</th>
+                        <th>Comments</th>
+                        <th>CTR</th>
+                        <th>Sales</th>
+                        <th>Revenue</th>
+                        <th>Notes / Next Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ACC1-2024-08-01-01</td>
+                        <td>Magnetic Screen Door</td>
+                        <td>Hook 04</td>
+                        <td>128,400</td>
+                        <td>8,450</td>
+                        <td>1,132</td>
+                        <td>4.6%</td>
+                        <td>212</td>
+                        <td>$951.28</td>
+                        <td>Scale: produce five remix angles, cross-post to Account 2.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="10">Add a row per upload; highlight 50K+ views or CTR &gt;5% to prioritize duplicating.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note">Every Sunday, audit the sheet: retire underperformers, ideate new hooks for mid-tier performers, brief your VA for next week.</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>What Happens After Week 1?</h2>
+            <p>Week one gets you live. Week two and beyond is about building a repeatable operating cadence, tightening numbers, and stacking scalable systems so results compound.</p>
+
+            <h3>Weekly Operating Rhythm</h3>
+            <div class="two-column">
+                <div>
+                    <h4 style="margin: 0 0 10px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; color: var(--muted);">Every Monday</h4>
+                    <ul>
+                        <li>Review prior week analytics: views, CTR, conversion, and revenue per product.</li>
+                        <li>Archive losing hooks and flag top three performers to iterate.</li>
+                        <li>Pick 5–10 fresh products to test based on current Shop trends.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 10px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; color: var(--muted);">Tuesday–Thursday</h4>
+                    <ul>
+                        <li>Batch shoot/edit 30–40 clips (supplier footage + new angles on winners).</li>
+                        <li>Schedule daily posts across all accounts and prep comment-reply videos.</li>
+                        <li>Reach out to sellers for exclusives or higher commission tiers.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="two-column">
+                <div>
+                    <h4 style="margin: 16px 0 10px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; color: var(--muted);">Friday</h4>
+                    <ul>
+                        <li>Launch at least one new experimental hook format (duet, stitch, carousel).</li>
+                        <li>Audit posting cadence to ensure 3–5 videos per account per day were met.</li>
+                        <li>Update spreadsheets and clip library so VAs can pull cleanly.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="margin: 16px 0 10px; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; color: var(--muted);">Weekend</h4>
+                    <ul>
+                        <li>Engage heavy with comments/DMs, record replies, pin top comments.</li>
+                        <li>Refresh storefronts: rotate featured products, swap thumbnails, test new copy.</li>
+                        <li>Plan next week’s experiments (products, hooks, creative formats).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Monthly Growth Levers</h3>
+            <ul>
+                <li><strong>Scale winning accounts:</strong> Duplicate the highest-performing persona to a fresh account and cross-post proven winners.</li>
+                <li><strong>Expand teams:</strong> Hire VAs or UGC creators to handle editing, posting, and community engagement as soon as revenue allows.</li>
+                <li><strong>Negotiate better economics:</strong> Request private offers or tiered commissions once you deliver $5K+ GMV on a SKU.</li>
+                <li><strong>Layer paid traffic carefully:</strong> Promote only proven organic winners; start with $20/day and reinvest profits.</li>
+            </ul>
+
+            <h3>Quarterly Benchmarks</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Milestone</th>
+                        <th>Target</th>
+                        <th>Action Trigger</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Consistent $1K/week profit</td>
+                        <td>Maintain 5+ winners with 10%+ conversion</td>
+                        <td>Systematize VA workflows and document SOPs.</td>
+                    </tr>
+                    <tr>
+                        <td>Hit $10K month</td>
+                        <td>20M+ 90-day views across accounts</td>
+                        <td>Launch dedicated content calendar and paid retargeting.</td>
+                    </tr>
+                    <tr>
+                        <td>Expand to agency model</td>
+                        <td>3+ niches producing predictable revenue</td>
+                        <td>Pitch white-label services to brands needing affiliates.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout">
+                <strong>Keep Shipping</strong>
+                The system doesn’t end after setup—lock in the operating rhythm, keep data-driven experiments rolling, and the compounding kicks in. Treat every week as a new product sprint.
+            </div>
+        </section>
+    </main>
 </body>
 </html>
